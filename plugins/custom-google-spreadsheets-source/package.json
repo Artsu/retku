@@ -1,0 +1,16 @@
+{
+  "name": "gatsby-source-google-sheets-simple",
+  "version": "1.0.0",
+  "description": "Simple Gatsby source plugin for Google Sheets using googleapis library instead of any wrapper libraries\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.5.5",
+    "gatsby-node-helpers": "^0.3.0",
+    "googleapis": "^39.2.0"
+  }
+}

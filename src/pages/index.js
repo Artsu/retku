@@ -1,39 +1,40 @@
-import React from "react"
-import { Link, graphql } from "gatsby"
+import React, { Component } from 'react'
+import { graphql } from 'gatsby'
+import utils from '../common/utils'
+import NesMania from '../components/NesMania/NesMania'
 
-import Layout from "../components/layout"
-import SEO from "../components/seo"
-import Card from "../components/card"
+import Page from '../components/Page'
 
-const IndexPage = ({data}) => (
-  <Layout>
-    <SEO title="Home" />
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    {
-      data.allGoogleSpreadsheetSheet1.edges.map(d=>(
-        <Card 
-          key={d.node.id} 
-          title={d.node.title} 
-          content={d.node.content} 
-          date={d.node.date}
-        />
-      ))
-    }
-    <Link to="/page-2/">Go to page 2</Link>
-  </Layout>
-)
+class IndexPage extends Component {
+  render() {
+    const items = this.props.data.allGoogleSpreadsheetNesUrakka.edges
+      .map(item => utils.standardizeGameItem(item.node))
+      .filter(n => n)
+
+    return (
+      <Page>
+        <NesMania items={items} />
+      </Page>
+    )
+  }
+}
 
 export const query = graphql`
-  query{
-    allGoogleSpreadsheetSheet1 {
+  query {
+    allGoogleSpreadsheetNesUrakka {
       edges {
         node {
           id
-          title
-          date
-          content
+          Valitsija
+          Peli
+          Muuta
+          L_p_isyp_iv_
+          Kommentit
+          Extra
+          Aika
+          _
+          _1_10
+          Video
         }
       }
     }
