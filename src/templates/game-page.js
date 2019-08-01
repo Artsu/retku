@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import { Link } from 'gatsby'
 import Page from '../components/Page'
 import { FaChevronLeft } from 'react-icons/fa'
+import utils from '../common/utils'
+import { renderStars } from '../common/helpers'
 
 const Back = styled(Link)`
   display: flex;
@@ -25,11 +27,11 @@ const Content = styled.div`
   justify-content: space-between;
 `
 const LeftColumn = styled.div`
-  width: 20%;
+  width: 240px;
 `
 const RightColumn = styled.div`
   padding-left: 20px;
-  width: calc(80% - 60px);
+  flex-grow: 1;
 `
 
 const VideoContainer = styled.div`
@@ -46,26 +48,60 @@ const VideoIframe = styled.iframe`
   height: 100%;
 `
 
+const GameImage = styled.img`
+  width: 100%;
+`
+
+const GameInfo = styled.div`
+  padding: 10px 0;
+`
+
+const Row = styled.div`
+  line-height: 20px;
+`
+
+const Rating = styled.div`
+  color: yellow;
+  padding: 5px 5px;
+  font-size: 14px;
+  display: inline;
+`
+
 const GamePage = props => {
+  const { playthrough } = props.pageContext
   return (
     <Page>
       <Back to="/">
         <FaChevronLeft /> Takaisin
       </Back>
-      <h1>{props.pageContext.title}</h1>
+      <h1>{playthrough.title}</h1>
       <Content>
         <LeftColumn>
-          <img src="https://images.igdb.com/igdb/image/upload/t_cover_big/fzacmuu0ql2epktrfyjk.jpg" />
+          <GameImage src="https://images.igdb.com/igdb/image/upload/t_cover_big/fzacmuu0ql2epktrfyjk.jpg" />
+          <GameInfo>
+            <Row>
+              <b>Läpäisypäivä:</b> {playthrough.date}
+            </Row>
+            <Row>
+              <b>Aika:</b> {playthrough.time || 'ei tiedossa'}
+            </Row>
+            <Row>
+              <b>Arvosana:</b>
+              <Rating>
+                {renderStars(playthrough.rating, playthrough.title)}
+              </Rating>
+            </Row>
+          </GameInfo>
         </LeftColumn>
         <RightColumn>
           <VideoContainer>
             <VideoIframe
-              src={`http://www.youtube.com/embed/${props.pageContext.videoId}`}
+              src={`http://www.youtube.com/embed/${playthrough.videoId}`}
               frameBorder="0"
               allowFullScreen
             />
           </VideoContainer>
-          <p>{props.pageContext.comments}</p>
+          <p>{playthrough.comments}</p>
         </RightColumn>
       </Content>
     </Page>

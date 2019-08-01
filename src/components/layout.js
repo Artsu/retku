@@ -54,6 +54,8 @@ const StyledLayout = styled(Layout)`
   display: flex;
   flex-direction: column;
   justify-content: center;
+
+  color: #41332a;
 `
 
 export default StyledLayout

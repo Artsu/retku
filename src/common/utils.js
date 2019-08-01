@@ -1,3 +1,5 @@
+// Util functions shared between frontentend and gatsby-config.js. Not built with babel on Node side.
+
 const slugify = require('slugify')
 const getYoutubeId = require('get-youtube-id')
 

@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
-import times from 'times-loop'
-import { FaStar, FaStarHalfAlt, FaRegStar, FaRegCalendar } from 'react-icons/fa'
+import { FaRegCalendar } from 'react-icons/fa'
 import { Link } from 'gatsby'
-import utils from '../../common/utils'
-import LogoImage from '../../images/Logo4.png'
+import utils from '../common/utils'
+import { renderStars } from '../common/helpers'
+import LogoImage from '../images/Logo4.png'
 
 const StyledNesMania = styled.div`
   text-align: center;
@@ -81,18 +81,6 @@ const Rating = styled.div`
   font-size: 16px;
 `
 
-const renderStars = (stars, title) => {
-  return times(10, index => {
-    const key = `${title} - Stars ${index}`
-    if (index + 1 <= stars) {
-      return <FaStar key={key} />
-    } else if (index + 0.5 <= stars) {
-      return <FaStarHalfAlt key={key} />
-    }
-    return <FaRegStar key={key} />
-  })
-}
-
 export default props => {
   return (
     <StyledNesMania>
@@ -103,11 +91,9 @@ export default props => {
           .filter(n => n.title)
           .slice(0, 21)
           .map(item => {
+            const titleSlug = utils.slugifyUrl(item.title)
             return (
-              <GameItem
-                key={item.title}
-                to={`/${utils.slugifyUrl(item.title)}`}
-              >
+              <GameItem key={item.title} to={`/${titleSlug}`}>
                 <GameInfo>
                   <GameTitle>{item.title}</GameTitle>
                   <br />
@@ -117,7 +103,7 @@ export default props => {
                   <Rating>{renderStars(item.rating, item.title)}</Rating>
                   <FinishTime>{item.time}</FinishTime>
                 </GameInfo>
-                <CoverImg src="https://images.igdb.com/igdb/image/upload/t_cover_big/fzacmuu0ql2epktrfyjk.jpg" />
+                <CoverImg src={`/cover-images/${titleSlug}.jpg`} />
               </GameItem>
             )
           })}

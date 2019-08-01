@@ -50,7 +50,7 @@ exports.createPages = ({ graphql, actions }) => {
               // as a GraphQL variable to query for data from the markdown file.
               context: {
                 route,
-                ...gameItem,
+                playthrough: gameItem,
               },
             })
           }

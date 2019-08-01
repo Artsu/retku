@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { graphql } from 'gatsby'
 import utils from '../common/utils'
-import NesMania from '../components/NesMania/NesMania'
+import GamesListingPage from '../components/GamesListingPage'
 
 import Page from '../components/Page'
 
@@ -13,7 +13,7 @@ class IndexPage extends Component {
 
     return (
       <Page>
-        <NesMania items={items} />
+        <GamesListingPage items={items} />
       </Page>
     )
   }
