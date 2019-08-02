@@ -1,9 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
-import { FaRegCalendar } from 'react-icons/fa'
+import { FaRegCalendar, FaSortDown } from 'react-icons/fa'
 import { Link } from 'gatsby'
 import utils from '../common/utils'
 import { renderStars } from '../common/helpers'
+import formatDate from 'date-fns/format'
 import LogoImage from '../images/Logo4.png'
 
 const StyledNesMania = styled.div`
@@ -17,6 +18,29 @@ const Logo = styled.img`
 
 const Filters = styled.div`
   padding: 10px;
+  display: flex;
+  cursor: pointer;
+  font-weight: bold;
+`
+
+const FilterItem = styled.div`
+  padding: 10px;
+  margin-right: 20px;
+  border: 1px solid transparent;
+
+  &.active {
+    border: 1px solid gray;
+    border-radius: 5px;
+    background: #a5988f;
+    color: white;
+  }
+
+  &:hover {
+    border: 1px solid gray;
+    border-radius: 5px;
+    background: #89776c;
+    color: white;
+  }
 `
 
 const GamesList = styled.div`
@@ -85,28 +109,32 @@ export default props => {
   return (
     <StyledNesMania>
       {/*<Logo src={LogoImage} />*/}
-      <Filters>filtterit</Filters>
+      <Filters>
+        <FilterItem>Läpäisypäivämäärä</FilterItem>
+        <FilterItem className="active">
+          Arvosana <FaSortDown />
+        </FilterItem>
+        <FilterItem>Aakkosjärjestys</FilterItem>
+      </Filters>
       <GamesList>
-        {props.items
-          .filter(n => n.title)
-          .slice(0, 21)
-          .map(item => {
-            const titleSlug = utils.slugifyUrl(item.title)
-            return (
-              <GameItem key={item.title} to={`/${titleSlug}`}>
-                <GameInfo>
-                  <GameTitle>{item.title}</GameTitle>
-                  <br />
-                  <FinishDate>
-                    <FaRegCalendar className="calendar-icon" /> {item.date}
-                  </FinishDate>
-                  <Rating>{renderStars(item.rating, item.title)}</Rating>
-                  <FinishTime>{item.time}</FinishTime>
-                </GameInfo>
-                <CoverImg src={`/cover-images/${titleSlug}.jpg`} />
-              </GameItem>
-            )
-          })}
+        {props.items.map(item => {
+          const titleSlug = utils.slugifyUrl(item.title)
+          return (
+            <GameItem key={item.title} to={`/${titleSlug}`}>
+              <GameInfo>
+                <GameTitle>{item.title}</GameTitle>
+                <br />
+                <FinishDate>
+                  <FaRegCalendar className="calendar-icon" />{' '}
+                  {item.date && formatDate(item.date, 'dd.MM.yyyy')}
+                </FinishDate>
+                <Rating>{renderStars(item.rating, item.title)}</Rating>
+                <FinishTime>{item.time}</FinishTime>
+              </GameInfo>
+              <CoverImg src={`/cover-images/${titleSlug}.jpg`} />
+            </GameItem>
+          )
+        })}
       </GamesList>
     </StyledNesMania>
   )

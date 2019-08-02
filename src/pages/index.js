@@ -1,19 +1,36 @@
 import React, { Component } from 'react'
 import { graphql } from 'gatsby'
+import fp from 'lodash/fp'
 import utils from '../common/utils'
 import GamesListingPage from '../components/GamesListingPage'
 
 import Page from '../components/Page'
+import SortAndPaginationContext from '../context/SortAndPaginationContext'
 
 class IndexPage extends Component {
   render() {
-    const items = this.props.data.allGoogleSpreadsheetNesUrakka.edges
-      .map(item => utils.standardizeGameItem(item.node))
-      .filter(n => n)
-
     return (
       <Page>
-        <GamesListingPage items={items} />
+        <SortAndPaginationContext.Consumer>
+          {sortAndPaginationState => {
+            const items = fp.flow(
+              fp.map(item => utils.standardizeGameItem(item.node)),
+              fp.filter(n => n && n.title),
+              fp.orderBy(
+                n => n[sortAndPaginationState.sort.type],
+                sortAndPaginationState.sort.direction
+              )
+            )(this.props.data.allGoogleSpreadsheetNesUrakka.edges)
+            const paginatedItems = items.slice(0, 21)
+            return (
+              <GamesListingPage
+                items={paginatedItems}
+                setSort={sortAndPaginationState.setSort}
+                setPagination={sortAndPaginationState.setPagination}
+              />
+            )
+          }}
+        </SortAndPaginationContext.Consumer>
       </Page>
     )
   }

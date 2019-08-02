@@ -69,6 +69,7 @@ const Rating = styled.div`
 
 const GamePage = props => {
   const { playthrough } = props.pageContext
+  const titleSlug = utils.slugifyUrl(playthrough.title)
   return (
     <Page>
       <Back to="/">
@@ -77,7 +78,7 @@ const GamePage = props => {
       <h1>{playthrough.title}</h1>
       <Content>
         <LeftColumn>
-          <GameImage src="https://images.igdb.com/igdb/image/upload/t_cover_big/fzacmuu0ql2epktrfyjk.jpg" />
+          <GameImage src={`/cover-images/${titleSlug}.jpg`} />
           <GameInfo>
             <Row>
               <b>Läpäisypäivä:</b> {playthrough.date}
