@@ -5,7 +5,7 @@ const getYoutubeId = require('get-youtube-id')
 
 const slugifyUrl = title =>
   slugify(title.toLowerCase(), {
-    remove: /[*+~.()'"!:@]/g,
+    remove: /[*+~.()'"!:@/\\]/g,
   })
 
 const standardizeGameItem = excelItem => {

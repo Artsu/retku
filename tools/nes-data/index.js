@@ -22,7 +22,7 @@ const requestOptions = {
 
 const slugifyTitle = title =>
   slugify(title.toLowerCase(), {
-    remove: /[*+~.()'"!:@]/g,
+    remove: /[*+~.()'"!:@/\\]/g,
   })
 
 const downloadImage = async (imageUrl, title) => {
@@ -37,26 +37,38 @@ const downloadImage = async (imageUrl, title) => {
   )
 }
 
-const getCoverUrl = async coverId => {
-  try {
-    const response = await apicalypse(requestOptions)
-      .fields('url')
-      .where(`id = ${coverId};`)
-      .request('/covers')
+const getCoverIdFromAccurateMatch = (results, searchTitle) => {
+  let coverId = null
+  results.forEach(r => {
+    if (r.name === searchTitle) {
+      coverId = r.cover.image_id
+    }
+  })
+  return coverId
+}
 
-    const result = response.data[0]
+const askForCoverId = async (results, title) => {
+  console.log('----')
+  console.log(`Results for "${title}":`)
+  console.log(
+    results.forEach(r => {
+      console.log(`${r.name} - ${r.cover && r.cover.image_id}`)
+    })
+  )
+  console.log('----')
 
-    return `http:${result.url}`
-  } catch (err) {
-    console.error(`Failed to fetch cover for id ${coverId}`, err)
-  }
+  return rlp.questionAsync('More than one results found! Proper cover id is: ')
 }
 
 const fetchData = async title => {
   try {
+    let searchTitle = title
+    if (title.indexOf(' (PAL)') > 0) {
+      searchTitle = title.substring(0, title.indexOf(' (PAL)'))
+    }
     const response = await apicalypse(requestOptions)
       .fields('name,cover.*')
-      .search(title)
+      .search(searchTitle)
       .where('platforms = (18)') // NES platform id
       .limit(5)
       .request('/games')
@@ -64,33 +76,28 @@ const fetchData = async title => {
     const result = response.data
     if (result.length === 0) {
       console.log(`!!! No results found for ${title}. Skipping...`)
+      console.log(`Use slug "${slugifyTitle(title)}" for manual input.`)
       return
     }
     let coverId = result[0].cover.image_id
     if (result.length > 1) {
-      console.log('----')
-      console.log(`Results for "${title}":`)
-      console.log(
-        result.forEach(r => {
-          console.log(`${r.name} - ${r.cover.image_id}`)
-        })
-      )
-      console.log('----')
-
-      coverId = await rlp.questionAsync(
-        'More than one results found! Proper cover id is: '
-      )
+      coverId = getCoverIdFromAccurateMatch(result, searchTitle)
+      if (!coverId) {
+        console.log(`Use slug "${slugifyTitle(title)}" for manual input.`)
+        coverId = await askForCoverId(result, searchTitle)
+      }
     }
     const coverUrl = `https://images.igdb.com/igdb/image/upload/t_cover_big/${coverId}.jpg`
     await downloadImage(coverUrl, title)
   } catch (err) {
     console.error(`Failed to fetch  data for title "${title}"`, err)
+    console.log(`Use slug "${slugifyTitle(title)}" for manual input.`)
   }
 }
 
 fs.readFileAsync('games-list.txt', 'utf8')
   .then(async contents => {
-    for (let row of contents.split('\n').slice(0, 50)) {
+    for (let row of contents.split('\n')) {
       if (!fs.existsSync(`./assets/${slugifyTitle(row)}.jpg`)) {
         await fetchData(row)
       }
