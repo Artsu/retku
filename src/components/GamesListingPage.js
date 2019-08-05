@@ -2,9 +2,10 @@ import React from 'react'
 import styled from 'styled-components'
 import { FaRegCalendar, FaSortDown, FaSortUp } from 'react-icons/fa'
 import { Link } from 'gatsby'
+import ReactPaginate from 'react-paginate'
+import formatDate from 'date-fns/format'
 import utils from '../common/utils'
 import { renderStars } from '../common/helpers'
-import formatDate from 'date-fns/format'
 import LogoImage from '../images/Logo4.png'
 
 const StyledNesMania = styled.div`
@@ -139,6 +140,50 @@ const SortArrow = styled(props => {
   }
 `
 
+const Pagination = styled(props => {
+  const { className, ...rest } = props
+  return (
+    <ReactPaginate
+      containerClassName={className}
+      previousLabel="Edellinen"
+      nextLabel="Seuraava"
+      {...rest}
+    />
+  )
+})`
+  display: flex;
+  list-style-type: none;
+  padding-left: 0;
+  justify-content: center;
+
+  & > li > a {
+    cursor: pointer;
+    padding: 10px;
+  }
+  & > li.previous {
+    padding-left: 10px;
+  }
+  & > li.next {
+    padding-right: 10px;
+  }
+  & > li.selected > a {
+    border: 1px solid gray;
+    border-radius: 5px;
+    background: #a5988f;
+    color: white;
+  }
+  & > li.disabled {
+    color: #96918f;
+  }
+
+  @media only screen and (max-width: 780px) {
+    & > li.previous,
+    & > li.next {
+      display: none;
+    }
+  }
+`
+
 const SORT_OPTIONS = [
   {
     name: 'Läpäisypäivämäärä',
@@ -159,6 +204,23 @@ export default props => {
     return () => {
       props.setSort(type)
     }
+  }
+
+  const renderPagination = () => {
+    const onPageChange = page => {
+      console.log(page.selected)
+      props.setPage(page.selected)
+    }
+
+    return (
+      <Pagination
+        pageCount={props.pageCount}
+        pageRangeDisplayed={2}
+        marginPagesDisplayed={2}
+        forcePage={props.pagination.page}
+        onPageChange={onPageChange}
+      />
+    )
   }
 
   return (
@@ -183,6 +245,7 @@ export default props => {
           )
         })}
       </Sorting>
+      {renderPagination()}
       <GamesList>
         {props.items.map(item => {
           const titleSlug = utils.slugifyUrl(item.title)
@@ -203,6 +266,7 @@ export default props => {
           )
         })}
       </GamesList>
+      {renderPagination()}
     </StyledNesMania>
   )
 }

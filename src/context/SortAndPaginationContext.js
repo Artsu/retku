@@ -3,14 +3,14 @@ import React from 'react'
 const SortAndPaginationContext = React.createContext({
   sortType: 'date',
   direction: 'asc',
-  page: 1,
+  page: 0,
 })
 
 class SortAndPaginationProvider extends React.Component {
   state = {
     sortType: 'date',
     direction: 'asc',
-    page: 1,
+    page: 0,
   }
 
   setSort = type => {
@@ -24,8 +24,8 @@ class SortAndPaginationProvider extends React.Component {
     })
   }
 
-  setPagination = paginationOptions => {
-    this.setState({ ...paginationOptions })
+  setPage = page => {
+    this.setState({ page })
   }
 
   render() {
@@ -41,7 +41,7 @@ class SortAndPaginationProvider extends React.Component {
             page: this.state.page,
           },
           setSort: this.setSort,
-          setPagination: this.setPagination,
+          setPage: this.setPage,
         }}
       >
         {children}

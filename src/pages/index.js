@@ -7,7 +7,14 @@ import GamesListingPage from '../components/GamesListingPage'
 import Page from '../components/Page'
 import SortAndPaginationContext from '../context/SortAndPaginationContext'
 
+const ITEMS_PER_PAGE = 21
+
 class IndexPage extends Component {
+  calculatePaginationItems = (items, page) => {
+    const cursor = page === 0 ? 0 : page * ITEMS_PER_PAGE
+    return items.slice(cursor, cursor + ITEMS_PER_PAGE)
+  }
+
   render() {
     return (
       <Page>
@@ -21,13 +28,18 @@ class IndexPage extends Component {
                 sortAndPaginationState.sort.direction
               )
             )(this.props.data.allGoogleSpreadsheetNesUrakka.edges)
-            const paginatedItems = items.slice(0, 21)
+            const paginatedItems = this.calculatePaginationItems(
+              items,
+              sortAndPaginationState.pagination.page
+            )
             return (
               <GamesListingPage
                 items={paginatedItems}
                 sort={sortAndPaginationState.sort}
+                pagination={sortAndPaginationState.pagination}
                 setSort={sortAndPaginationState.setSort}
-                setPagination={sortAndPaginationState.setPagination}
+                setPage={sortAndPaginationState.setPage}
+                pageCount={Math.ceil(items.length / ITEMS_PER_PAGE)}
               />
             )
           }}
