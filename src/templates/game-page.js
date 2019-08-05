@@ -152,7 +152,11 @@ const GamePage = props => {
         <RightColumn>
           <VideoContainer>
             <VideoIframe
-              src={`http://www.youtube.com/embed/${playthrough.videoId}`}
+              src={
+                playthrough.playlistId
+                  ? `http://www.youtube.com/embed/videoseries?list=${playthrough.playlistId}`
+                  : `http://www.youtube.com/embed/${playthrough.videoId}`
+              }
               frameBorder="0"
               allowFullScreen
             />

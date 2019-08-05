@@ -31,7 +31,13 @@ const standardizeGameItem = excelItem => {
     // index: excelItem._,
   }
   if (excelItem.Video) {
-    game.videoId = getYoutubeId(excelItem.Video)
+    if (excelItem.Video.indexOf('playlist?list=') > 0) {
+      game.playlistId = excelItem.Video.substring(
+        excelItem.Video.indexOf('playlist?list=') + 14
+      )
+    } else {
+      game.videoId = getYoutubeId(excelItem.Video)
+    }
   }
   return game
 }
