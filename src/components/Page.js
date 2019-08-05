@@ -12,7 +12,11 @@ const ContentAnimator = styled.div`
   flex-grow: 1;
   margin: 0 auto;
 
-  ${props => props.isOpen && `max-height: calc(2000px);`}
+  ${props => props.isOpen && `max-height: calc(3000px);`}
+
+  @media only screen and (max-width: 780px) {
+    ${props => props.isOpen && `max-height: calc(6000px);`}
+  }
 `
 
 const ContentWrapper = styled.div`
@@ -21,13 +25,22 @@ const ContentWrapper = styled.div`
   background: #d5cac2;
   margin: auto;
   height: calc(100% - 40px);
+
+  @media only screen and (max-width: 1200px) {
+    width: 720px;
+  }
+
+  @media only screen and (max-width: 780px) {
+    width: 320px;
+    padding: 0;
+  }
 `
 
 const ResponsiveNintendoWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 10px;
+  margin: 10px -100px;
 `
 class Page extends Component {
   render() {

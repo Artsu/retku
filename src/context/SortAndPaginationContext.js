@@ -13,8 +13,15 @@ class SortAndPaginationProvider extends React.Component {
     page: 1,
   }
 
-  setSort = sortOptions => {
-    this.setState({ ...sortOptions })
+  setSort = type => {
+    let direction = 'asc'
+    if (type === this.state.sortType && this.state.direction === 'asc') {
+      direction = 'desc'
+    }
+    this.setState({
+      sortType: type,
+      direction,
+    })
   }
 
   setPagination = paginationOptions => {

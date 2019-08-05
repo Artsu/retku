@@ -2,7 +2,7 @@
 
 const slugify = require('slugify')
 const getYoutubeId = require('get-youtube-id')
-const parseDate = require('date-fns/parse')
+const parseDate = require('date-fns').parse
 
 const slugifyUrl = title =>
   slugify(title.toLowerCase(), {
@@ -14,6 +14,10 @@ const standardizeGameItem = excelItem => {
     return null
   }
   const date = parseDate(excelItem.L_p_isyp_iv_, 'dd.MM.yyyy', new Date())
+  let rating = parseFloat(excelItem._1_10)
+  if (isNaN(rating)) {
+    rating = -1
+  }
   const game = {
     id: excelItem.id,
     chooser: excelItem.Valitsija,
@@ -23,7 +27,7 @@ const standardizeGameItem = excelItem => {
     comments: excelItem.Kommentit,
     extra: excelItem.Extra,
     time: excelItem.Aika,
-    rating: excelItem._1_10,
+    rating,
     // index: excelItem._,
   }
   if (excelItem.Video) {

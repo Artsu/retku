@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'gatsby'
+import formatDate from 'date-fns/format'
 import Page from '../components/Page'
 import { FaChevronLeft } from 'react-icons/fa'
 import utils from '../common/utils'
@@ -21,17 +22,39 @@ const Back = styled(Link)`
   }
 `
 
+const Top = styled.div`
+  @media only screen and (max-width: 780px) {
+    margin: 0 20px;
+    padding-top: 20px;
+
+    & h1 {
+      font-size: 24px;
+    }
+  }
+`
+
 const Content = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+
+  @media only screen and (max-width: 780px) {
+    flex-direction: column;
+    margin: 20px 30px 20px 20px;
+  }
 `
 const LeftColumn = styled.div`
-  width: 240px;
+  flex-basis: 240px;
+  flex-grow: 0;
+  flex-shrink: 0;
 `
 const RightColumn = styled.div`
   padding-left: 20px;
   flex-grow: 1;
+
+  @media only screen and (max-width: 780px) {
+    padding: 0;
+  }
 `
 
 const VideoContainer = styled.div`
@@ -48,12 +71,29 @@ const VideoIframe = styled.iframe`
   height: 100%;
 `
 
+const ImageWrapper = styled.div`
+  width: 100%;
+  display: flex;
+
+  @media only screen and (max-width: 780px) {
+    margin-bottom: 20px;
+  }
+`
 const GameImage = styled.img`
   width: 100%;
+
+  @media only screen and (max-width: 780px) {
+    width: 60%;
+    margin: auto;
+  }
 `
 
 const GameInfo = styled.div`
   padding: 10px 0;
+
+  @media only screen and (max-width: 780px) {
+    padding: 0 0 15px;
+  }
 `
 
 const Row = styled.div`
@@ -67,21 +107,35 @@ const Rating = styled.div`
   display: inline;
 `
 
+const MobileSeparator = styled.div`
+  @media only screen and (max-width: 780px) {
+    width: 100%;
+    border-bottom: 1px solid #41332a;
+    margin-bottom: 15px;
+  }
+`
+
 const GamePage = props => {
   const { playthrough } = props.pageContext
   const titleSlug = utils.slugifyUrl(playthrough.title)
+  const date = formatDate(new Date(playthrough.date), 'dd.MM.yyyy')
   return (
     <Page>
-      <Back to="/">
-        <FaChevronLeft /> Takaisin
-      </Back>
-      <h1>{playthrough.title}</h1>
+      <Top>
+        <Back to="/">
+          <FaChevronLeft /> Takaisin
+        </Back>
+        <h1>{playthrough.title}</h1>
+      </Top>
       <Content>
         <LeftColumn>
-          <GameImage src={`/cover-images/${titleSlug}.jpg`} />
+          <ImageWrapper>
+            <GameImage src={`/cover-images/${titleSlug}.jpg`} />
+          </ImageWrapper>
+          <MobileSeparator />
           <GameInfo>
             <Row>
-              <b>Läpäisypäivä:</b> {playthrough.date}
+              <b>Läpäisypäivä:</b> {date}
             </Row>
             <Row>
               <b>Aika:</b> {playthrough.time || 'ei tiedossa'}
@@ -93,6 +147,7 @@ const GamePage = props => {
               </Rating>
             </Row>
           </GameInfo>
+          <MobileSeparator />
         </LeftColumn>
         <RightColumn>
           <VideoContainer>

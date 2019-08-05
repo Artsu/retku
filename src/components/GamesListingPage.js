@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { FaRegCalendar, FaSortDown } from 'react-icons/fa'
+import { FaRegCalendar, FaSortDown, FaSortUp } from 'react-icons/fa'
 import { Link } from 'gatsby'
 import utils from '../common/utils'
 import { renderStars } from '../common/helpers'
@@ -16,17 +16,23 @@ const Logo = styled.img`
   width: 70%;
 `
 
-const Filters = styled.div`
+const Sorting = styled.div`
   padding: 10px;
   display: flex;
   cursor: pointer;
   font-weight: bold;
+
+  @media only screen and (max-width: 780px) {
+    flex-direction: column;
+  }
 `
 
-const FilterItem = styled.div`
+const SortItem = styled.div`
   padding: 10px;
   margin-right: 20px;
   border: 1px solid transparent;
+  display: flex;
+  align-items: center;
 
   &.active {
     border: 1px solid gray;
@@ -41,6 +47,10 @@ const FilterItem = styled.div`
     background: #89776c;
     color: white;
   }
+
+  @media only screen and (max-width: 780px) {
+    margin-right: 0;
+  }
 `
 
 const GamesList = styled.div`
@@ -51,7 +61,7 @@ const GamesList = styled.div`
 
 const GameItem = styled(Link)`
   padding: 10px;
-  width: 29%;
+  width: 318px;
   display: flex;
   justify-content: space-between;
   border: 1px solid gray;
@@ -65,6 +75,10 @@ const GameItem = styled(Link)`
   &:hover {
     background: #89776c;
     color: white;
+  }
+
+  @media only screen and (max-width: 1200px) {
+    width: 318px;
   }
 `
 
@@ -103,19 +117,72 @@ const Rating = styled.div`
   color: yellow;
   padding: 5px 0;
   font-size: 16px;
+
+  @media only screen and (max-width: 780px) {
+    font-size: 14px;
+  }
 `
 
+const SortArrow = styled(props => {
+  const icon = props.isAscending ? <FaSortUp /> : <FaSortDown />
+  return <span className={props.className}>{icon}</span>
+})`
+  position: relative;
+  width: 15px;
+  height: 15px;
+  margin-left: 5px;
+
+  & > * {
+    position: absolute;
+    top: ${props => (props.isAscending ? '3px' : '-2px')};
+    left: 0;
+  }
+`
+
+const SORT_OPTIONS = [
+  {
+    name: 'Läpäisypäivämäärä',
+    field: 'date',
+  },
+  {
+    name: 'Aakkosjärjestys',
+    field: 'title',
+  },
+  {
+    name: 'Arvosana',
+    field: 'rating',
+  },
+]
+
 export default props => {
+  const setSort = type => {
+    return () => {
+      props.setSort(type)
+    }
+  }
+
   return (
     <StyledNesMania>
       {/*<Logo src={LogoImage} />*/}
-      <Filters>
-        <FilterItem>Läpäisypäivämäärä</FilterItem>
-        <FilterItem className="active">
-          Arvosana <FaSortDown />
-        </FilterItem>
-        <FilterItem>Aakkosjärjestys</FilterItem>
-      </Filters>
+      <Sorting>
+        {SORT_OPTIONS.map(sort => {
+          /*<FilterItem>Läpäisypäivämäärä</FilterItem>
+          <FilterItem>Aakkosjärjestys</FilterItem>*/
+          const isActive = sort.field === props.sort.type ? 'active' : ''
+          return (
+            <SortItem
+              key={`sort-${sort.field}`}
+              className={isActive}
+              onClick={setSort(sort.field)}
+            >
+              {sort.name}
+              {isActive && (
+                <SortArrow isAscending={props.sort.direction === 'asc'} />
+              )}
+            </SortItem>
+          )
+        })}
+      </Sorting>
       <GamesList>
         {props.items.map(item => {
           const titleSlug = utils.slugifyUrl(item.title)

@@ -25,6 +25,7 @@ class IndexPage extends Component {
             return (
               <GamesListingPage
                 items={paginatedItems}
+                sort={sortAndPaginationState.sort}
                 setSort={sortAndPaginationState.setSort}
                 setPagination={sortAndPaginationState.setPagination}
               />
