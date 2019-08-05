@@ -208,7 +208,6 @@ export default props => {
 
   const renderPagination = () => {
     const onPageChange = page => {
-      console.log(page.selected)
       props.setPage(page.selected)
     }
 

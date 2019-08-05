@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import urlParams from 'url-parameters'
 import Nintendo from '../components/Nintendo'
 import Layout from '../components/layout'
 import SEO from '../components/seo'
 import AnimationContext from '../context/AnimationContext'
+
+urlParams.enable()
 
 const ContentAnimator = styled.div`
   transition: max-height 0.5s ease-in-out;

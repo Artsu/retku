@@ -6,7 +6,7 @@ const parseDate = require('date-fns').parse
 
 const slugifyUrl = title =>
   slugify(title.toLowerCase(), {
-    remove: /[*+~.()'"!:@/\\]/g,
+    remove: /[?*+~.()'"!:@/\\]/g,
   })
 
 const standardizeGameItem = excelItem => {

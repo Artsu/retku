@@ -4,8 +4,10 @@ import { Link } from 'gatsby'
 import formatDate from 'date-fns/format'
 import Page from '../components/Page'
 import { FaChevronLeft } from 'react-icons/fa'
+import { stringify } from 'query-string'
 import utils from '../common/utils'
 import { renderStars } from '../common/helpers'
+import SortAndPaginationContext from '../context/SortAndPaginationContext'
 
 const Back = styled(Link)`
   display: flex;
@@ -115,14 +117,28 @@ const MobileSeparator = styled.div`
   }
 `
 
+const buildBackButtonLink = sortAndPaginationState => {
+  const params = {}
+  if (sortAndPaginationState.sort.type) {
+    params.sort = sortAndPaginationState.sort.type
+    params.direction = sortAndPaginationState.sort.direction
+  }
+  if (sortAndPaginationState.pagination.page) {
+    params.page = sortAndPaginationState.pagination.page
+  }
+
+  return `/?${stringify(params)}`
+}
+
 const GamePage = props => {
   const { playthrough } = props.pageContext
   const titleSlug = utils.slugifyUrl(playthrough.title)
   const date = formatDate(new Date(playthrough.date), 'dd.MM.yyyy')
+  const backButtonLink = buildBackButtonLink(props.sortAndPaginationState)
   return (
     <Page>
       <Top>
-        <Back to="/">
+        <Back to={backButtonLink}>
           <FaChevronLeft /> Takaisin
         </Back>
         <h1>{playthrough.title}</h1>
@@ -168,4 +184,16 @@ const GamePage = props => {
   )
 }
 
-export default GamePage
+export default React.forwardRef((props, ref) => {
+  return (
+    <SortAndPaginationContext.Consumer>
+      {sortAndPaginationState => (
+        <GamePage
+          {...props}
+          sortAndPaginationState={sortAndPaginationState}
+          ref={ref}
+        />
+      )}
+    </SortAndPaginationContext.Consumer>
+  )
+})
