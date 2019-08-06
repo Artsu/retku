@@ -9,6 +9,10 @@ import Page from '../components/Page'
 import SortAndPaginationContext from '../context/SortAndPaginationContext'
 
 const ITEMS_PER_PAGE = 21
+const defaultSort = {
+  type: 'date',
+  direction: 'asc',
+}
 
 class IndexPage extends Component {
   async componentDidMount() {
@@ -51,7 +55,7 @@ class IndexPage extends Component {
       <Page logoImage={data.logoImage.childImageSharp.fluid} title="Etusivu">
         <GamesListingPage
           items={paginatedItems}
-          sort={sortAndPaginationState.sort}
+          sort={sortAndPaginationState.sort || defaultSort}
           pagination={sortAndPaginationState.pagination}
           setSort={sortAndPaginationState.setSort}
           setPage={sortAndPaginationState.setPage}
