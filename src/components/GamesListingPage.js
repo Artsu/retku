@@ -304,10 +304,9 @@ export default props => {
       </Description>
       <Sorting>
         {SORT_OPTIONS.map(sort => {
-          /*<FilterItem>Läpäisypäivämäärä</FilterItem>
-          <FilterItem>Aakkosjärjestys</FilterItem>*/
           const isActive =
             props.sort && sort.field === props.sort.type ? 'active' : ''
+          console.log('isActive', isActive)
           return (
             <SortItem
               key={`sort-${sort.field}`}

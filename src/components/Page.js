@@ -76,7 +76,7 @@ const PageInfo = styled.div`
 
 class Page extends Component {
   componentDidMount() {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && window.cookieconsent) {
       window.cookieconsent.initialise({
         palette: {
           popup: {
