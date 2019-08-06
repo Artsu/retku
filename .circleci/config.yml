@@ -6,7 +6,7 @@ version: 2
 
 
 defaults: &defaults
-  working_directory: ~/
+  working_directory: ~/repo
   docker:
   - image: circleci/node:12.7
 
@@ -29,6 +29,8 @@ jobs:
   deploy:
     <<: *defaults
     steps:
+    - attach_workspace:
+        at: ~/repo
     - run: npm run deploy
 
 workflows:
