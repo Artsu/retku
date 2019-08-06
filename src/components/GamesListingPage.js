@@ -1,9 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import { FaRegCalendar, FaSortDown, FaSortUp } from 'react-icons/fa'
+import {
+  FaRegCalendar,
+  FaSortDown,
+  FaSortUp,
+  FaPlayCircle,
+} from 'react-icons/fa'
 import { Link } from 'gatsby'
 import ReactPaginate from 'react-paginate'
 import formatDate from 'date-fns/format'
+import ReactTwitchEmbedVideo from 'react-twitch-embed-video'
 import utils from '../common/utils'
 import { renderStars } from '../common/helpers'
 
@@ -11,11 +17,28 @@ const StyledNesMania = styled.div`
   text-align: center;
 `
 
+const Description = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
+  @media only screen and (max-width: 780px) {
+    margin: 20px 10px 10px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #b6a89e;
+    font-size: 14px;
+  }
+`
+
 const Sorting = styled.div`
   padding: 10px;
   display: flex;
   cursor: pointer;
   font-weight: bold;
+  justify-content: center;
+  border-bottom: 1px solid #b6a89e;
+  padding-bottom: 20px;
+  margin-bottom: 30px;
 
   @media only screen and (max-width: 780px) {
     flex-direction: column;
@@ -178,6 +201,50 @@ const Pagination = styled(props => {
   }
 `
 
+const TwitchVideo = styled(props => {
+  const isServer = typeof window === 'undefined'
+  let sizeProps = {}
+  if (!isServer && document.documentElement.clientWidth < 780) {
+    sizeProps.height = '200px'
+  }
+  return (
+    <div className={props.className}>
+      {!isServer && (
+        <ReactTwitchEmbedVideo {...props} width="100%" {...sizeProps} />
+      )}
+    </div>
+  )
+})`
+  position: relative;
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  max-height: 0;
+  transition: max-height 0.2s linear;
+  overflow: hidden;
+
+  ${props => props.visible && 'max-height: 1000px;'};
+`
+
+const ToggleStreamButton = styled.button`
+  display: flex;
+  align-items: center;
+  align-self: center;
+  cursor: pointer;
+  font-size: 15px;
+  padding: 10px;
+  margin-top: 10px;
+  border: 1px solid gray;
+  border-radius: 5px;
+  background: #a5988f;
+  font-weight: bold;
+  color: white;
+
+  & > svg {
+    margin-left: 5px;
+  }
+`
+
 const SORT_OPTIONS = [
   {
     name: 'Läpäisypäivämäärä',
@@ -194,6 +261,8 @@ const SORT_OPTIONS = [
 ]
 
 export default props => {
+  const [showStream, setShowStream] = useState(false)
+
   const isServer = typeof window === 'undefined'
 
   const setSort = type => {
@@ -220,6 +289,15 @@ export default props => {
 
   return (
     <StyledNesMania>
+      <Description>
+        Retkun tie Nintendo Entertainment Systemin syvimpienkin syvänteiden
+        läpi. Tällä hetkelle pelejä on pelattuna läpi {props.totalItems} / 710.
+        <ToggleStreamButton onClick={() => setShowStream(!showStream)}>
+          Seuraa Retkua livenä
+          <FaPlayCircle />
+        </ToggleStreamButton>
+        <TwitchVideo visible={showStream} layout="video" channel="retku" />
+      </Description>
       <Sorting>
         {SORT_OPTIONS.map(sort => {
           /*<FilterItem>Läpäisypäivämäärä</FilterItem>

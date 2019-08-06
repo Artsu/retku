@@ -81,7 +81,7 @@ class Page extends Component {
                     critical
                     loading="eager"
                     fadeIn={false}
-                    fixed={this.props.logoImage}
+                    fluid={this.props.logoImage}
                   />
                 </LogoWrapper>
                 {this.props.children}

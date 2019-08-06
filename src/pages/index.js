@@ -36,8 +36,8 @@ class IndexPage extends Component {
       ? sortAndPaginationState.sort.type
       : 'date'
     const direction = sortAndPaginationState.sort
-      ? sortAndPaginationState.sort.type
-      : 'direction'
+      ? sortAndPaginationState.sort.direction
+      : 'asc'
 
     const items = fp.flow(
       fp.map(item => utils.standardizeGameItem(item.node)),
@@ -52,7 +52,7 @@ class IndexPage extends Component {
     )
 
     return (
-      <Page logoImage={data.logoImage.childImageSharp.fixed}>
+      <Page logoImage={data.logoImage.childImageSharp.fluid}>
         <GamesListingPage
           items={paginatedItems}
           sort={sortAndPaginationState.sort}
@@ -60,6 +60,7 @@ class IndexPage extends Component {
           setSort={sortAndPaginationState.setSort}
           setPage={sortAndPaginationState.setPage}
           pageCount={Math.ceil(items.length / ITEMS_PER_PAGE)}
+          totalItems={items.length}
         />
       </Page>
     )
@@ -70,8 +71,8 @@ export const query = graphql`
   query {
     logoImage: file(relativePath: { eq: "Logo8.png" }) {
       childImageSharp {
-        fixed(width: 756, height: 172) {
-          ...GatsbyImageSharpFixed
+        fluid(maxWidth: 756, quality: 100) {
+          ...GatsbyImageSharpFluid
         }
       }
     }

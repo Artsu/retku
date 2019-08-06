@@ -139,7 +139,7 @@ const GamePage = props => {
   const date = formatDate(new Date(playthrough.date), 'dd.MM.yyyy')
   const backButtonLink = buildBackButtonLink(props.sortAndPaginationState)
   return (
-    <Page logoImage={props.data.logoImage.childImageSharp.fixed}>
+    <Page logoImage={props.data.logoImage.childImageSharp.fluid}>
       <Top>
         <Back to={backButtonLink}>
           <FaChevronLeft /> Takaisin
@@ -205,8 +205,8 @@ export const query = graphql`
   query PageQuery($image: String!) {
     logoImage: file(relativePath: { eq: "Logo8.png" }) {
       childImageSharp {
-        fixed(width: 756, height: 172) {
-          ...GatsbyImageSharpFixed
+        fluid(maxWidth: 756, quality: 100) {
+          ...GatsbyImageSharpFluid
         }
       }
     }
