@@ -33,10 +33,12 @@ jobs:
 
 workflows:
   version: 2
-  commit:
+  build-and-deploy:
     jobs:
     - build
-    - deploy
+    - deploy:
+      requires:
+      - build
   nightly:
     triggers:
     - schedule:
@@ -47,4 +49,6 @@ workflows:
             - master
     jobs:
     - build
-    - deploy
+    - deploy:
+      requires:
+      - build
