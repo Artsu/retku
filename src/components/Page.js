@@ -5,6 +5,7 @@ import Nintendo from '../components/Nintendo'
 import Layout from '../components/layout'
 import SEO from '../components/seo'
 import AnimationContext from '../context/AnimationContext'
+import LogoImage from '../images/Logo8.png'
 
 urlParams.enable()
 
@@ -19,6 +20,24 @@ const ContentAnimator = styled.div`
 
   @media only screen and (max-width: 780px) {
     ${props => props.isOpen && `max-height: calc(6000px);`}
+  }
+`
+
+const LogoWrapper = styled.div`
+  text-align: center;
+`
+
+const Logo = styled.img`
+  margin-bottom: 30px;
+  width: 70%;
+
+  @media only screen and (max-width: 1200px) {
+    width: 100%;
+  }
+
+  @media only screen and (max-width: 780px) {
+    width: calc(100% - 40px);
+    margin: 20px;
   }
 `
 
@@ -53,7 +72,12 @@ class Page extends Component {
           <Layout>
             <SEO title={`Retkun NESMania - ${this.props.title}`} />
             <ContentAnimator isOpen={animationState.contentIsVisible}>
-              <ContentWrapper>{this.props.children}</ContentWrapper>
+              <ContentWrapper>
+                <LogoWrapper>
+                  <Logo src={LogoImage} />
+                </LogoWrapper>
+                {this.props.children}
+              </ContentWrapper>
             </ContentAnimator>
             <ResponsiveNintendoWrapper>
               <Nintendo

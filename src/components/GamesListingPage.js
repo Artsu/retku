@@ -6,15 +6,9 @@ import ReactPaginate from 'react-paginate'
 import formatDate from 'date-fns/format'
 import utils from '../common/utils'
 import { renderStars } from '../common/helpers'
-import LogoImage from '../images/Logo4.png'
 
 const StyledNesMania = styled.div`
   text-align: center;
-`
-
-const Logo = styled.img`
-  margin-bottom: 30px;
-  width: 70%;
 `
 
 const Sorting = styled.div`
@@ -224,7 +218,6 @@ export default props => {
 
   return (
     <StyledNesMania>
-      {/*<Logo src={LogoImage} />*/}
       <Sorting>
         {SORT_OPTIONS.map(sort => {
           /*<FilterItem>Läpäisypäivämäärä</FilterItem>
