@@ -210,7 +210,7 @@ export default props => {
         pageCount={props.pageCount}
         pageRangeDisplayed={2}
         marginPagesDisplayed={2}
-        forcePage={props.pagination.page}
+        forcePage={props.pagination ? props.pagination.page : 0}
         onPageChange={onPageChange}
       />
     )
@@ -222,7 +222,8 @@ export default props => {
         {SORT_OPTIONS.map(sort => {
           /*<FilterItem>Läpäisypäivämäärä</FilterItem>
           <FilterItem>Aakkosjärjestys</FilterItem>*/
-          const isActive = sort.field === props.sort.type ? 'active' : ''
+          const isActive =
+            sort.field === props.sort && props.sort.type ? 'active' : ''
           return (
             <SortItem
               key={`sort-${sort.field}`}
@@ -231,7 +232,9 @@ export default props => {
             >
               {sort.name}
               {isActive && (
-                <SortArrow isAscending={props.sort.direction === 'asc'} />
+                <SortArrow
+                  isAscending={props.sort && props.sort.direction === 'asc'}
+                />
               )}
             </SortItem>
           )

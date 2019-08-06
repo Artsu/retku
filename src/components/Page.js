@@ -7,7 +7,9 @@ import SEO from '../components/seo'
 import AnimationContext from '../context/AnimationContext'
 import LogoImage from '../images/Logo8.png'
 
-urlParams.enable()
+if (typeof window !== 'undefined' && window.location) {
+  urlParams.enable()
+}
 
 const ContentAnimator = styled.div`
   transition: max-height 0.5s ease-in-out;

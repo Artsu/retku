@@ -119,11 +119,14 @@ const MobileSeparator = styled.div`
 
 const buildBackButtonLink = sortAndPaginationState => {
   const params = {}
-  if (sortAndPaginationState.sort.type) {
+  if (sortAndPaginationState.sort && sortAndPaginationState.sort.type) {
     params.sort = sortAndPaginationState.sort.type
     params.direction = sortAndPaginationState.sort.direction
   }
-  if (sortAndPaginationState.pagination.page) {
+  if (
+    sortAndPaginationState.pagination &&
+    sortAndPaginationState.pagination.page
+  ) {
     params.page = sortAndPaginationState.pagination.page
   }
 

@@ -35,7 +35,8 @@
   },
   "devDependencies": {
     "camelcase": "^5.3.1",
-    "prettier": "^1.17.1"
+    "prettier": "^1.17.1",
+    "surge": "^0.21.3"
   },
   "keywords": [
     "gatsby"
@@ -47,7 +48,8 @@
     "format": "prettier --write src/**/*.{js,jsx}",
     "start": "npm run develop",
     "serve": "gatsby serve",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\""
+    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\"",
+    "deploy": "surge --project ./public --domain pink-wish.surge.sh"
   },
   "repository": {
     "type": "git",

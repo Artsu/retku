@@ -33,17 +33,23 @@ class IndexPage extends Component {
   render() {
     const { sortAndPaginationState } = this.props
 
+    const type = sortAndPaginationState.sort
+      ? sortAndPaginationState.sort.type
+      : 'date'
+    const direction = sortAndPaginationState.sort
+      ? sortAndPaginationState.sort.type
+      : 'direction'
+
     const items = fp.flow(
       fp.map(item => utils.standardizeGameItem(item.node)),
       fp.filter(n => n && n.title),
-      fp.orderBy(
-        n => n[sortAndPaginationState.sort.type],
-        sortAndPaginationState.sort.direction
-      )
+      fp.orderBy(n => n[type], direction)
     )(this.props.data.allGoogleSpreadsheetNesUrakka.edges)
     const paginatedItems = this.calculatePaginationItems(
       items,
-      sortAndPaginationState.pagination.page
+      sortAndPaginationState.pagination
+        ? sortAndPaginationState.pagination.page
+        : 0
     )
 
     return (
