@@ -19,7 +19,7 @@ exports.sourceNodes = async ({ actions, createNodeId }, pluginOptions) => {
   const jwt = new google.auth.JWT(
     credentials.client_email,
     null,
-    credentials.private_key,
+    credentials.private_key.replace(/\\n/g, '\n'),
     SCOPES
   )
 
