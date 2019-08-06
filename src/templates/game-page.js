@@ -2,11 +2,11 @@ import React from 'react'
 import { graphql } from 'gatsby'
 import styled from 'styled-components'
 import { Link } from 'gatsby'
+import Img from 'gatsby-image'
 import formatDate from 'date-fns/format'
 import Page from '../components/Page'
 import { FaChevronLeft } from 'react-icons/fa'
 import { stringify } from 'query-string'
-import utils from '../common/utils'
 import { renderStars } from '../common/helpers'
 import SortAndPaginationContext from '../context/SortAndPaginationContext'
 
@@ -82,7 +82,7 @@ const ImageWrapper = styled.div`
     margin-bottom: 20px;
   }
 `
-const GameImage = styled.img`
+const GameImage = styled(Img)`
   width: 100%;
 
   @media only screen and (max-width: 780px) {
@@ -136,7 +136,6 @@ const buildBackButtonLink = sortAndPaginationState => {
 
 const GamePage = props => {
   const { playthrough } = props.pageContext
-  const titleSlug = utils.slugifyUrl(playthrough.title)
   const date = formatDate(new Date(playthrough.date), 'dd.MM.yyyy')
   const backButtonLink = buildBackButtonLink(props.sortAndPaginationState)
   return (
@@ -150,7 +149,7 @@ const GamePage = props => {
       <Content>
         <LeftColumn>
           <ImageWrapper>
-            <GameImage src={`/cover-images/${titleSlug}.jpg`} />
+            <GameImage fluid={props.data.coverImage.childImageSharp.fluid} />
           </ImageWrapper>
           <MobileSeparator />
           <GameInfo>

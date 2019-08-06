@@ -18,7 +18,7 @@ class AnimationProvider extends React.Component {
   componentDidMount() {
     setTimeout(() => {
       this.toggleNes()
-    }, 1000)
+    }, 300)
   }
 
   toggleNes = () => {
