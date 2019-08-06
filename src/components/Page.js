@@ -67,6 +67,13 @@ const ResponsiveNintendoWrapper = styled.div`
   align-items: center;
   margin: 10px -100px;
 `
+
+const PageInfo = styled.div`
+  text-align: center;
+  font-size: 10px;
+  margin-bottom: 10px;
+`
+
 class Page extends Component {
   render() {
     return (
@@ -93,6 +100,14 @@ class Page extends Component {
                 cartIsDown={animationState.cartIsDown}
               />
             </ResponsiveNintendoWrapper>
+            {animationState.contentIsVisible && (
+              <PageInfo>
+                // site design and implementation:{' '}
+                <a href="https://twitter.com/arimattin">@arimattin</a> // source
+                available at <a href="https://github.com/Artsu/retku">github</a>{' '}
+                //
+              </PageInfo>
+            )}
           </Layout>
         )}
       </AnimationContext.Consumer>
