@@ -52,7 +52,7 @@ class IndexPage extends Component {
     )
 
     return (
-      <Page logoImage={data.logoImage.childImageSharp.fluid}>
+      <Page logoImage={data.logoImage.childImageSharp.fluid} title="Etusivu">
         <GamesListingPage
           items={paginatedItems}
           sort={sortAndPaginationState.sort}

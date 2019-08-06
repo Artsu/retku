@@ -75,6 +75,21 @@ const PageInfo = styled.div`
 `
 
 class Page extends Component {
+  componentDidMount() {
+    if (typeof window !== 'undefined') {
+      window.cookieconsent.initialise({
+        palette: {
+          popup: {
+            background: '#252e39',
+          },
+          button: {
+            background: '#14a7d0',
+          },
+        },
+      })
+    }
+  }
+
   render() {
     return (
       <AnimationContext.Consumer>

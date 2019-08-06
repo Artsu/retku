@@ -139,7 +139,10 @@ const GamePage = props => {
   const date = formatDate(new Date(playthrough.date), 'dd.MM.yyyy')
   const backButtonLink = buildBackButtonLink(props.sortAndPaginationState)
   return (
-    <Page logoImage={props.data.logoImage.childImageSharp.fluid}>
+    <Page
+      logoImage={props.data.logoImage.childImageSharp.fluid}
+      title={playthrough.title}
+    >
       <Top>
         <Back to={backButtonLink}>
           <FaChevronLeft /> Takaisin

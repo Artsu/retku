@@ -15,7 +15,7 @@ class AnimationProvider extends React.Component {
     buttonDisabled: true,
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.toggleNes()
   }
 
