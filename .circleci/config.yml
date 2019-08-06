@@ -37,8 +37,8 @@ workflows:
     jobs:
     - build
     - deploy:
-      requires:
-      - build
+        requires:
+          - build
   nightly:
     triggers:
     - schedule:
@@ -50,5 +50,5 @@ workflows:
     jobs:
     - build
     - deploy:
-      requires:
-      - build
+        requires:
+          - build
