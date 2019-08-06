@@ -9,9 +9,13 @@ import {
 import { Link } from 'gatsby'
 import ReactPaginate from 'react-paginate'
 import formatDate from 'date-fns/format'
-import ReactTwitchEmbedVideo from 'react-twitch-embed-video'
 import utils from '../common/utils'
 import { renderStars } from '../common/helpers'
+
+let ReactTwitchEmbedVideo = null
+if (typeof window !== 'undefined') {
+  ReactTwitchEmbedVideo = require('react-twitch-embed-video')
+}
 
 const StyledNesMania = styled.div`
   text-align: center;
