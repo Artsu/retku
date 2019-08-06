@@ -24,7 +24,10 @@ module.exports = {
       options: {
         spreadsheetId: process.env.NES_URAKKASPREADSHEET_ID,
         worksheetTitle: 'NES-Urakka',
-        credentials: require('./google-service-account'),
+        credentials: {
+          private_key: process.env.GOOGLE_PRIVATE_KEY,
+          client_email: process.env.GOOGLE_CLIENT_EMAIL,
+        },
       },
     },
     `gatsby-plugin-styled-components`,
