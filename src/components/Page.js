@@ -6,6 +6,7 @@ import Nintendo from '../components/Nintendo'
 import Layout from '../components/layout'
 import SEO from '../components/seo'
 import AnimationContext from '../context/AnimationContext'
+import LogoImage from '../images/Logo8.png'
 
 if (typeof window !== 'undefined' && window.location) {
   urlParams.enable()
@@ -77,12 +78,7 @@ class Page extends Component {
             <ContentAnimator isOpen={animationState.contentIsVisible}>
               <ContentWrapper>
                 <LogoWrapper>
-                  <Logo
-                    critical
-                    loading="eager"
-                    fadeIn={false}
-                    fixed={this.props.logoImage}
-                  />
+                  <Logo src={LogoImage} />
                 </LogoWrapper>
                 {this.props.children}
               </ContentWrapper>
