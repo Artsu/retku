@@ -52,7 +52,7 @@ class IndexPage extends Component {
     )
 
     return (
-      <Page logoImage={data.logoImage.childImageSharp.fluid}>
+      <Page logoImage={data.logoImage.childImageSharp.fixed}>
         <GamesListingPage
           items={paginatedItems}
           sort={sortAndPaginationState.sort}
@@ -70,8 +70,8 @@ export const query = graphql`
   query {
     logoImage: file(relativePath: { eq: "Logo8.png" }) {
       childImageSharp {
-        fluid(maxWidth: 756, quality: 100) {
-          ...GatsbyImageSharpFluid
+        fixed(width: 756, height: 172) {
+          ...GatsbyImageSharpFixed
         }
       }
     }

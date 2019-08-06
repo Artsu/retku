@@ -77,7 +77,12 @@ class Page extends Component {
             <ContentAnimator isOpen={animationState.contentIsVisible}>
               <ContentWrapper>
                 <LogoWrapper>
-                  <Logo fluid={this.props.logoImage} />
+                  <Logo
+                    critical
+                    loading="eager"
+                    fadeIn={false}
+                    fixed={this.props.logoImage}
+                  />
                 </LogoWrapper>
                 {this.props.children}
               </ContentWrapper>
