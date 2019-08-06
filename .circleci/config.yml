@@ -30,7 +30,8 @@ jobs:
         root: ~/repo
         paths:
           - package.json
-          - node_modules/*
+          - node_modules/.bin/*
+          - node_modules/surge/*
           - public/*
   deploy:
     <<: *defaults
