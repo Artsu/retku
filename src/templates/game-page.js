@@ -1,4 +1,5 @@
 import React from 'react'
+import { graphql } from 'gatsby'
 import styled from 'styled-components'
 import { Link } from 'gatsby'
 import formatDate from 'date-fns/format'
@@ -139,7 +140,7 @@ const GamePage = props => {
   const date = formatDate(new Date(playthrough.date), 'dd.MM.yyyy')
   const backButtonLink = buildBackButtonLink(props.sortAndPaginationState)
   return (
-    <Page>
+    <Page logoImage={props.data.logoImage.childImageSharp.fluid}>
       <Top>
         <Back to={backButtonLink}>
           <FaChevronLeft /> Takaisin
@@ -200,3 +201,22 @@ export default React.forwardRef((props, ref) => {
     </SortAndPaginationContext.Consumer>
   )
 })
+
+export const query = graphql`
+  query PageQuery($image: String!) {
+    logoImage: file(relativePath: { eq: "Logo8.png" }) {
+      childImageSharp {
+        fluid(maxWidth: 756, quality: 100) {
+          ...GatsbyImageSharpFluid
+        }
+      }
+    }
+    coverImage: file(relativePath: { eq: $image }) {
+      childImageSharp {
+        fluid(maxWidth: 350, quality: 100) {
+          ...GatsbyImageSharpFluid
+        }
+      }
+    }
+  }
+`

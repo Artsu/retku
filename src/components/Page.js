@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import urlParams from 'url-parameters'
+import Img from 'gatsby-image'
 import Nintendo from '../components/Nintendo'
 import Layout from '../components/layout'
 import SEO from '../components/seo'
 import AnimationContext from '../context/AnimationContext'
-import LogoImage from '../images/Logo8.png'
 
 if (typeof window !== 'undefined' && window.location) {
   urlParams.enable()
@@ -26,10 +26,11 @@ const ContentAnimator = styled.div`
 `
 
 const LogoWrapper = styled.div`
-  text-align: center;
+  display: flex;
+  justify-content: center;
 `
 
-const Logo = styled.img`
+const Logo = styled(Img)`
   margin-bottom: 30px;
   width: 70%;
 
@@ -76,7 +77,7 @@ class Page extends Component {
             <ContentAnimator isOpen={animationState.contentIsVisible}>
               <ContentWrapper>
                 <LogoWrapper>
-                  <Logo src={LogoImage} />
+                  <Logo fluid={this.props.logoImage} />
                 </LogoWrapper>
                 {this.props.children}
               </ContentWrapper>

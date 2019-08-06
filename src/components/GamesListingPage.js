@@ -194,6 +194,8 @@ const SORT_OPTIONS = [
 ]
 
 export default props => {
+  const isServer = typeof window === 'undefined'
+
   const setSort = type => {
     return () => {
       props.setSort(type)
@@ -256,7 +258,11 @@ export default props => {
                 <Rating>{renderStars(item.rating, item.title)}</Rating>
                 <FinishTime>{item.time}</FinishTime>
               </GameInfo>
-              <CoverImg src={`/cover-images/${titleSlug}.jpg`} />
+              {!isServer && (
+                <CoverImg
+                  src={require(`../images/cover-images/${titleSlug}.jpg`)}
+                />
+              )}
             </GameItem>
           )
         })}

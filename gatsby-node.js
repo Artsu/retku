@@ -51,6 +51,7 @@ exports.createPages = ({ graphql, actions }) => {
               context: {
                 route,
                 playthrough: gameItem,
+                image: `cover-images/${route}.jpg`,
               },
             })
           }

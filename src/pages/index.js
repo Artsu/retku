@@ -12,7 +12,6 @@ const ITEMS_PER_PAGE = 21
 
 class IndexPage extends Component {
   async componentDidMount() {
-    console.log('componentDidMount')
     const sort = urlParams.get('sort')
     const direction = urlParams.get('direction')
     const page = urlParams.get('page')
@@ -31,7 +30,7 @@ class IndexPage extends Component {
   }
 
   render() {
-    const { sortAndPaginationState } = this.props
+    const { sortAndPaginationState, data } = this.props
 
     const type = sortAndPaginationState.sort
       ? sortAndPaginationState.sort.type
@@ -53,7 +52,7 @@ class IndexPage extends Component {
     )
 
     return (
-      <Page>
+      <Page logoImage={data.logoImage.childImageSharp.fluid}>
         <GamesListingPage
           items={paginatedItems}
           sort={sortAndPaginationState.sort}
@@ -69,6 +68,13 @@ class IndexPage extends Component {
 
 export const query = graphql`
   query {
+    logoImage: file(relativePath: { eq: "Logo8.png" }) {
+      childImageSharp {
+        fluid(maxWidth: 756, quality: 100) {
+          ...GatsbyImageSharpFluid
+        }
+      }
+    }
     allGoogleSpreadsheetNesUrakka {
       edges {
         node {
