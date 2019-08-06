@@ -29,8 +29,7 @@ jobs:
   deploy:
     <<: *defaults
     steps:
-    - attach_workspace:
-        at: ~/repo
+    - checkout
     - run: npm run deploy
 
 workflows:
