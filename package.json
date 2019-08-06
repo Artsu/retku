@@ -35,6 +35,8 @@
   },
   "devDependencies": {
     "camelcase": "^5.3.1",
+    "gatsby-node-helpers": "^0.3.0",
+    "googleapis": "^42.0.0",
     "prettier": "^1.17.1",
     "surge": "^0.21.3"
   },
