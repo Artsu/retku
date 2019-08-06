@@ -225,7 +225,7 @@ export default props => {
           /*<FilterItem>Läpäisypäivämäärä</FilterItem>
           <FilterItem>Aakkosjärjestys</FilterItem>*/
           const isActive =
-            sort.field === props.sort && props.sort.type ? 'active' : ''
+            props.sort && sort.field === props.sort.type ? 'active' : ''
           return (
             <SortItem
               key={`sort-${sort.field}`}
