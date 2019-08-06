@@ -306,7 +306,6 @@ export default props => {
         {SORT_OPTIONS.map(sort => {
           const isActive =
             props.sort && sort.field === props.sort.type ? 'active' : ''
-          console.log('isActive', isActive)
           return (
             <SortItem
               key={`sort-${sort.field}`}

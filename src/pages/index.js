@@ -12,16 +12,12 @@ const ITEMS_PER_PAGE = 21
 
 class IndexPage extends Component {
   async componentDidMount() {
-    const sort = urlParams.get('sort')
-    const direction = urlParams.get('direction')
-    const page = urlParams.get('page')
+    const sort = urlParams.get('sort') || 'date'
+    const direction = urlParams.get('direction') || 'asc'
+    const page = urlParams.get('page') || 1
 
-    if (sort) {
-      await this.props.sortAndPaginationState.setSortAsync(sort, direction)
-    }
-    if (page) {
-      await this.props.sortAndPaginationState.setPageAsync(parseInt(page) - 1)
-    }
+    await this.props.sortAndPaginationState.setSortAsync(sort, direction)
+    await this.props.sortAndPaginationState.setPageAsync(parseInt(page) - 1)
   }
 
   calculatePaginationItems = (items, page) => {
