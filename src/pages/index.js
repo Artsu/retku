@@ -11,13 +11,13 @@ import SortAndPaginationContext from '../context/SortAndPaginationContext'
 const ITEMS_PER_PAGE = 21
 const defaultSort = {
   type: 'date',
-  direction: 'asc',
+  direction: 'desc',
 }
 
 class IndexPage extends Component {
   async componentDidMount() {
-    const sort = urlParams.get('sort') || 'date'
-    const direction = urlParams.get('direction') || 'asc'
+    const sort = urlParams.get('sort') || defaultSort.type
+    const direction = urlParams.get('direction') || defaultSort.direction
     const page = urlParams.get('page') || 1
 
     await this.props.sortAndPaginationState.setSortAsync(sort, direction)
@@ -34,10 +34,10 @@ class IndexPage extends Component {
 
     const type = sortAndPaginationState.sort
       ? sortAndPaginationState.sort.type
-      : 'date'
+      : defaultSort.type
     const direction = sortAndPaginationState.sort
       ? sortAndPaginationState.sort.direction
-      : 'asc'
+      : defaultSort.direction
 
     const items = fp.flow(
       fp.map(item => utils.standardizeGameItem(item.node)),

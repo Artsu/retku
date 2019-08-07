@@ -34,9 +34,13 @@ class SortAndPaginationProvider extends React.Component {
   }
 
   setSort = type => {
-    let direction = 'asc'
-    if (type === this.state.sortType && this.state.direction === 'asc') {
-      direction = 'desc'
+    let direction = 'desc'
+    if (type === this.state.sortType) {
+      if (this.state.direction === 'desc') {
+        direction = 'asc'
+      }
+    } else if (type === 'title') {
+      direction = 'asc'
     }
     urlParams.set('sort', type)
     urlParams.set('direction', direction)
