@@ -44,10 +44,6 @@ const Layout = ({ children, className }) => (
             src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js"
             data-cfasync="false"
           />
-          <script
-            async
-            src="https://www.googletagmanager.com/gtag/js?id=UA-145255597-1"
-          />
         </Helmet>
         {children}
       </div>

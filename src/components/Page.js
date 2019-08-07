@@ -87,14 +87,6 @@ class Page extends Component {
           },
         },
       })
-
-      window.dataLayer = window.dataLayer || []
-      const gtag = () => {
-        window.dataLayer.push(arguments)
-      }
-      gtag('js', new Date())
-
-      gtag('config', 'UA-145255597-1')
     }
   }
 
